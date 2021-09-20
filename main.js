@@ -1,5 +1,6 @@
 img="";
 status="";
+object=[];
 function preload(){
     img=loadImage("download.jpg")
 }
@@ -24,20 +25,23 @@ function got_result(error,results){
     }
     else{
         console.log(results)
+        object=results;
     }
 }
 
 function draw(){
     image( img,0,0,500,500);
-    fill("#FF0000");
-    text("Dog",50,70);
-    noFill();
-    stroke("#FF0000");
-    rect(30,60,450,350);
 
-    fill("#FF0000");
-    text("Cat",250,130);
-    noFill();
-    stroke("#FF0000");
-    rect(230,100,450,350);
+    if (status != ""){
+         for (i=0; i<object.length; i++){
+            document.getElementById("status").innerHTML='Status = Object Detected';
+
+            persent= floor(object[i].confidence*100);
+            fill("#FF0000");
+            text(object[i].label +""+persent+"%",object[i].x+15,object[i].y+15);
+            noFill();
+            stroke("#FF0000");
+           rect(object[i].x,object[i].y,object[i].width,object[i].height);
+         }
+    }
 }
